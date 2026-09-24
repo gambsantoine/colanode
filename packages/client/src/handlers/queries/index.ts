@@ -3,6 +3,8 @@ import { QueryMap } from '@colanode/client/queries';
 import { AppService } from '@colanode/client/services/app-service';
 
 import { AccountListQueryHandler } from './accounts/accounts-list';
+import { ApiKeyListQueryHandler } from './api-keys/api-key-list';
+import { ApiKeyListWorkspaceQueryHandler } from './api-keys/api-key-list-workspace';
 import { MetadataListQueryHandler } from './apps/metadata-list';
 import { TabsListQueryHandler } from './apps/tabs-list';
 import { AvatarGetQueryHandler } from './avatars/avatar-get';
@@ -43,6 +45,8 @@ export const buildQueryHandlerMap = (app: AppService): QueryHandlerMap => {
     'metadata.list': new MetadataListQueryHandler(app),
     'avatar.get': new AvatarGetQueryHandler(app),
     'account.list': new AccountListQueryHandler(app),
+    'api.key.list': new ApiKeyListQueryHandler(app),
+    'api.key.list.workspace': new ApiKeyListWorkspaceQueryHandler(app),
     'node.reaction.list': new NodeReactionsListQueryHandler(app),
     'node.list': new NodeListQueryHandler(app),
     'record.field.value.count': new RecordFieldValueCountQueryHandler(app),

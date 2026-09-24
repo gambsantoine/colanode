@@ -4,6 +4,10 @@ import { AppService } from '@colanode/client/services';
 
 import { AccountLogoutMutationHandler } from './accounts/account-logout';
 import { AccountUpdateMutationHandler } from './accounts/account-update';
+import { ApiKeyCreateMutationHandler } from './api-keys/api-key-create';
+import { ApiKeyCreateWorkspaceMutationHandler } from './api-keys/api-key-create-workspace';
+import { ApiKeyRevokeMutationHandler } from './api-keys/api-key-revoke';
+import { ApiKeyRevokeWorkspaceMutationHandler } from './api-keys/api-key-revoke-workspace';
 import { MetadataDeleteMutationHandler } from './apps/metadata-delete';
 import { MetadataUpdateMutationHandler } from './apps/metadata-update';
 import { TabCreateMutationHandler } from './apps/tab-create';
@@ -80,6 +84,10 @@ export const buildMutationHandlerMap = (
     'file.download': new FileDownloadMutationHandler(app),
     'space.child.reorder': new SpaceChildReorderMutationHandler(app),
     'account.update': new AccountUpdateMutationHandler(app),
+    'api.key.create': new ApiKeyCreateMutationHandler(app),
+    'api.key.create.workspace': new ApiKeyCreateWorkspaceMutationHandler(app),
+    'api.key.revoke': new ApiKeyRevokeMutationHandler(app),
+    'api.key.revoke.workspace': new ApiKeyRevokeWorkspaceMutationHandler(app),
     'document.update': new DocumentUpdateMutationHandler(app),
     'metadata.update': new MetadataUpdateMutationHandler(app),
     'metadata.delete': new MetadataDeleteMutationHandler(app),

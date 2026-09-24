@@ -1,6 +1,8 @@
 import { sha256 } from 'js-sha256';
 
 export * from './accounts/account-list';
+export * from './api-keys/api-key-list';
+export * from './api-keys/api-key-list-workspace';
 export * from './apps/metadata-list';
 export * from './documents/document-get';
 export * from './documents/document-state-get';
