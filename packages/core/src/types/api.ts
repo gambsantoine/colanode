@@ -52,6 +52,9 @@ export enum ApiErrorCode {
   TokenMissing = 'token_missing',
   TokenInvalid = 'token_invalid',
   RootNotFound = 'root_not_found',
+  ApiKeyNotFound = 'api_key_not_found',
+  ApiKeyNoAccess = 'api_key_no_access',
+  UnsupportedApiVersion = 'unsupported_api_version',
 
   ValidationError = 'validation_error',
   TooManyRequests = 'too_many_requests',

@@ -1,5 +1,6 @@
 import {
   NodeRole,
+  CategoryNode,
   ChannelNode,
   FolderNode,
   FileNode,
@@ -65,6 +66,8 @@ export type LocalNodeBase = {
   serverRevision: string;
 };
 
+export type LocalCategoryNode = CategoryNode & LocalNodeBase;
+
 export type LocalChannelNode = ChannelNode & LocalNodeBase;
 
 export type LocalChatNode = ChatNode & LocalNodeBase;
@@ -86,6 +89,7 @@ export type LocalMessageNode = MessageNode & LocalNodeBase;
 export type LocalSpaceNode = SpaceNode & LocalNodeBase;
 
 export type LocalNode =
+  | LocalCategoryNode
   | LocalChannelNode
   | LocalChatNode
   | LocalDatabaseNode

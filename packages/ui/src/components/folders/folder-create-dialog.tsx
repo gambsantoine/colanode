@@ -18,13 +18,15 @@ import {
 import { useWorkspace } from '@colanode/ui/contexts/workspace';
 
 interface FolderCreateDialogProps {
-  spaceId: string;
+  parentId: string;
+  rootId: string;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
 export const FolderCreateDialog = ({
-  spaceId,
+  parentId,
+  rootId,
   open,
   onOpenChange,
 }: FolderCreateDialogProps) => {
@@ -40,8 +42,8 @@ export const FolderCreateDialog = ({
         type: 'folder',
         name: values.name,
         avatar: values.avatar,
-        parentId: spaceId,
-        rootId: spaceId,
+        parentId,
+        rootId,
         createdAt: new Date().toISOString(),
         createdBy: workspace.userId,
         updatedAt: null,

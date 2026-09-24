@@ -5,11 +5,15 @@
   "compilerOptions": {
     "paths": {
       "@colanode/server/*": ["./src/*"],
+      "@colanode/api/*": ["../../packages/api/src/*"],
       "@colanode/core/*": ["../../packages/core/src/*"],
       "@colanode/crdt/*": ["../../packages/crdt/src/*"]
     }
   },
   "references": [
+    {
+      "path": "../../packages/api"
+    },
     {
       "path": "../../packages/core"
     },

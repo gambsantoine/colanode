@@ -54,6 +54,12 @@ export const extractNodeRole = (
   return role;
 };
 
+export const MAX_NESTED_CONTENT_DEPTH = 3;
+
+export const getNestedContentDepth = (tree: Node[]): number =>
+  tree.filter((node) => node.type !== 'space' && node.type !== 'category')
+    .length;
+
 export const generateFractionalIndex = (
   previous?: string | null,
   next?: string | null

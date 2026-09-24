@@ -18,13 +18,15 @@ import {
 import { useWorkspace } from '@colanode/ui/contexts/workspace';
 
 interface ChannelCreateDialogProps {
-  spaceId: string;
+  parentId: string;
+  rootId: string;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
 export const ChannelCreateDialog = ({
-  spaceId,
+  parentId,
+  rootId,
   open,
   onOpenChange,
 }: ChannelCreateDialogProps) => {
@@ -40,8 +42,8 @@ export const ChannelCreateDialog = ({
         id: channelId,
         type: 'channel',
         name: values.name,
-        parentId: spaceId,
-        rootId: spaceId,
+        parentId,
+        rootId,
         createdAt: new Date().toISOString(),
         createdBy: workspace.userId,
         updatedAt: null,

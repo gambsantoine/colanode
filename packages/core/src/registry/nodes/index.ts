@@ -1,3 +1,4 @@
+import { CategoryAttributes, categoryModel } from './category';
 import { ChannelAttributes, channelModel } from './channel';
 import { ChatAttributes, chatModel } from './chat';
 import { DatabaseAttributes, databaseModel } from './database';
@@ -18,6 +19,8 @@ type NodeBase = {
   updatedAt: string | null;
   updatedBy: string | null;
 };
+
+export type CategoryNode = NodeBase & CategoryAttributes;
 
 export type ChannelNode = NodeBase & ChannelAttributes;
 
@@ -43,6 +46,7 @@ export type NodeType = NodeAttributes['type'];
 
 export type NodeAttributes =
   | SpaceAttributes
+  | CategoryAttributes
   | DatabaseAttributes
   | ChannelAttributes
   | ChatAttributes
@@ -55,6 +59,7 @@ export type NodeAttributes =
 
 export type Node =
   | SpaceNode
+  | CategoryNode
   | DatabaseNode
   | DatabaseViewNode
   | ChannelNode
@@ -67,6 +72,8 @@ export type Node =
 
 export const getNodeModel = (type: NodeType) => {
   switch (type) {
+    case 'category':
+      return categoryModel;
     case 'channel':
       return channelModel;
     case 'chat':

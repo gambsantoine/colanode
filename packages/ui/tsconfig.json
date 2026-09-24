@@ -16,9 +16,8 @@
     "composite": true,
     "jsx": "react-jsx",
     "rootDir": "src",
-    "baseUrl": ".",
     "paths": {
-      "@colanode/ui/*": ["src/*"]
+      "@colanode/ui/*": ["./src/*"]
     }
   }
 }

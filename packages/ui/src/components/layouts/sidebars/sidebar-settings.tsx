@@ -2,6 +2,7 @@ import { count, inArray, useLiveQuery } from '@tanstack/react-db';
 import {
   Download,
   Info,
+  KeyRound,
   LogOut,
   Palette,
   Settings,
@@ -39,6 +40,8 @@ export const SidebarSettings = () => {
   );
 
   const pendingUploads = pendingUploadsQuery.data?.count ?? 0;
+  const canViewApiKeys =
+    workspace.role === 'owner' || workspace.role === 'admin';
 
   return (
     <div className="flex flex-col gap-4 h-full px-2 group/sidebar">
@@ -89,6 +92,17 @@ export const SidebarSettings = () => {
             )}
           </Link>
         )}
+        {canViewApiKeys && (
+          <Link from="/workspace/$userId" to="api-keys">
+            {({ isActive }) => (
+              <SidebarSettingsItem
+                title="Api keys"
+                icon={KeyRound}
+                isActive={isActive}
+              />
+            )}
+          </Link>
+        )}
       </div>
       <div className="flex w-full min-w-0 flex-col gap-1">
         <SidebarHeader title="Account settings" />
@@ -97,6 +111,15 @@ export const SidebarSettings = () => {
             <SidebarSettingsItem
               title="General"
               icon={Settings}
+              isActive={isActive}
+            />
+          )}
+        </Link>
+        <Link from="/workspace/$userId" to="account/api-keys">
+          {({ isActive }) => (
+            <SidebarSettingsItem
+              title="Api keys"
+              icon={KeyRound}
               isActive={isActive}
             />
           )}

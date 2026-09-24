@@ -33,6 +33,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1023.0",
+    "@colanode/api": "*",
     "@colanode/core": "*",
     "@colanode/crdt": "*",
     "@fastify/cors": "^11.2.0",

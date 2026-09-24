@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json.schemastore.org/package.json",
+  "name": "@colanode/api",
+  "version": "1.0.0",
+  "type": "module",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./lib/*": "./src/lib/*",
+    "./plugins/*": "./src/plugins/*",
+    "./routes/*": "./src/routes/*"
+  },
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "compile": "tsc --noEmit",
+    "test": "vitest --passWithNoTests",
+    "lint": "eslint src --ext .ts --max-warnings 0",
+    "build": "tsc",
+    "coverage": "vitest run --coverage "
+  },
+  "dependencies": {
+    "@colanode/core": "*",
+    "fastify": "^5.8.4",
+    "fastify-plugin": "^5.1.0",
+    "fastify-type-provider-zod": "^6.1.0",
+    "zod": "^4.3.6"
+  }
+}

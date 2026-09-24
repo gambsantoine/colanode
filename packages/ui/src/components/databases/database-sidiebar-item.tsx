@@ -6,7 +6,9 @@ import {
   LocalDatabaseNode,
   LocalDatabaseViewNode,
 } from '@colanode/client/types';
+import { NodeRole } from '@colanode/core';
 import { Avatar } from '@colanode/ui/components/avatars/avatar';
+import { DatabaseSettings } from '@colanode/ui/components/databases/database-settings';
 import { SidebarItem } from '@colanode/ui/components/layouts/sidebars/sidebar-item';
 import {
   Collapsible,
@@ -19,9 +21,13 @@ import { cn } from '@colanode/ui/lib/utils';
 
 interface DatabaseSidebarItemProps {
   database: LocalDatabaseNode;
+  role: NodeRole | null;
 }
 
-export const DatabaseSidebarItem = ({ database }: DatabaseSidebarItemProps) => {
+export const DatabaseSidebarItem = ({
+  database,
+  role,
+}: DatabaseSidebarItemProps) => {
   const workspace = useWorkspace();
   const [open, setOpen] = useState(false);
 
@@ -90,6 +96,17 @@ export const DatabaseSidebarItem = ({ database }: DatabaseSidebarItemProps) => {
             <span className="line-clamp-1 w-full grow text-left">
               {database.name ?? 'Unnamed'}
             </span>
+            {role && (
+              <div
+                className="opacity-0 group-hover/database-row:opacity-100 shrink-0"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                }}
+              >
+                <DatabaseSettings database={database} role={role} />
+              </div>
+            )}
           </div>
         )}
       </Link>
@@ -98,7 +115,7 @@ export const DatabaseSidebarItem = ({ database }: DatabaseSidebarItemProps) => {
           <ul className="ml-3 flex min-w-0 flex-col gap-0.5 py-0.5">
             {views.map((view) => (
               <li key={view.id}>
-                <SidebarItem node={view} />
+                <SidebarItem node={view} role={role} />
               </li>
             ))}
           </ul>

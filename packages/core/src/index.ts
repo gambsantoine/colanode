@@ -3,6 +3,8 @@ export * from './lib/files';
 export * from './lib/id';
 export * from './lib/utils';
 export * from './registry/block';
+export * from './types/api-keys';
+export * from './registry/nodes/category';
 export * from './registry/nodes/channel';
 export * from './registry/nodes/chat';
 export * from './registry/nodes/core';

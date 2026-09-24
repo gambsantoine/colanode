@@ -4,7 +4,6 @@
   "extends": "../tsconfig.json",
   "compilerOptions": {
     "noEmit": true,
-    "baseUrl": "..",
     "rootDir": "../../..",
     "types": ["vitest/globals", "@testing-library/jest-dom"]
   },

@@ -1,6 +1,10 @@
 import { z } from 'zod/v4';
 
-import { extractNodeRole } from '@colanode/core/lib/nodes';
+import {
+  extractNodeRole,
+  getNestedContentDepth,
+  MAX_NESTED_CONTENT_DEPTH,
+} from '@colanode/core/lib/nodes';
 import { hasNodeRole } from '@colanode/core/lib/permissions';
 import { NodeModel } from '@colanode/core/registry/nodes/core';
 
@@ -18,6 +22,10 @@ export const folderModel: NodeModel = {
   attributesSchema: folderAttributesSchema,
   canCreate: (context) => {
     if (context.tree.length === 0) {
+      return false;
+    }
+
+    if (getNestedContentDepth(context.tree) >= MAX_NESTED_CONTENT_DEPTH) {
       return false;
     }
 

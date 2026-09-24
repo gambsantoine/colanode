@@ -6,11 +6,13 @@ import {
   MessageCircle,
   Plus,
   Settings,
+  SquareStack,
   StickyNote,
 } from 'lucide-react';
 import { Fragment, useState } from 'react';
 
 import { LocalSpaceNode } from '@colanode/client/types';
+import { CategoryCreateDialog } from '@colanode/ui/components/categories/category-create-dialog';
 import { ChannelCreateDialog } from '@colanode/ui/components/channels/channel-create-dialog';
 import { DatabaseCreateDialog } from '@colanode/ui/components/databases/database-create-dialog';
 import { FolderCreateDialog } from '@colanode/ui/components/folders/folder-create-dialog';
@@ -35,12 +37,13 @@ export const SpaceSidebarDropdown = ({ space }: SpaceSidebarDropdownProps) => {
   const [openCreateChannel, setOpenCreateChannel] = useState(false);
   const [openCreateDatabase, setOpenCreateDatabase] = useState(false);
   const [openCreateFolder, setOpenCreateFolder] = useState(false);
+  const [openCreateCategory, setOpenCreateCategory] = useState(false);
 
   return (
     <Fragment>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <button className="text-muted-foreground opacity-0 transition-opacity group-hover/sidebar-space:opacity-100 flex items-center justify-center p-0 mr-1 size-4 focus-visible:outline-none focus-visible:ring-0 cursor-pointer">
+          <button className="text-muted-foreground flex items-center justify-center p-0 mr-1 size-4 focus-visible:outline-none focus-visible:ring-0 cursor-pointer">
             <Ellipsis />
           </button>
         </DropdownMenuTrigger>
@@ -75,6 +78,13 @@ export const SpaceSidebarDropdown = ({ space }: SpaceSidebarDropdownProps) => {
             <Folder className="size-4" />
             <span>Add folder</span>
           </DropdownMenuItem>
+          <DropdownMenuItem
+            onSelect={() => setOpenCreateCategory(true)}
+            className="flex flex-row items-center gap-2 cursor-pointer"
+          >
+            <SquareStack className="size-4" />
+            <span>Add category</span>
+          </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
             onClick={() =>
@@ -104,30 +114,41 @@ export const SpaceSidebarDropdown = ({ space }: SpaceSidebarDropdownProps) => {
       </DropdownMenu>
       {openCreateChannel && (
         <ChannelCreateDialog
-          spaceId={space.id}
+          parentId={space.id}
+          rootId={space.id}
           open={openCreateChannel}
           onOpenChange={setOpenCreateChannel}
         />
       )}
       {openCreatePage && (
         <PageCreateDialog
-          spaceId={space.id}
+          parentId={space.id}
+          rootId={space.id}
           open={openCreatePage}
           onOpenChange={setOpenCreatePage}
         />
       )}
       {openCreateDatabase && (
         <DatabaseCreateDialog
-          spaceId={space.id}
+          parentId={space.id}
+          rootId={space.id}
           open={openCreateDatabase}
           onOpenChange={setOpenCreateDatabase}
         />
       )}
       {openCreateFolder && (
         <FolderCreateDialog
-          spaceId={space.id}
+          parentId={space.id}
+          rootId={space.id}
           open={openCreateFolder}
           onOpenChange={setOpenCreateFolder}
+        />
+      )}
+      {openCreateCategory && (
+        <CategoryCreateDialog
+          spaceId={space.id}
+          open={openCreateCategory}
+          onOpenChange={setOpenCreateCategory}
         />
       )}
     </Fragment>

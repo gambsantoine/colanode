@@ -3,8 +3,10 @@ import { ChevronRight } from 'lucide-react';
 import { useState } from 'react';
 
 import { LocalNode, LocalPageNode } from '@colanode/client/types';
+import { NodeRole } from '@colanode/core';
 import { Avatar } from '@colanode/ui/components/avatars/avatar';
 import { SidebarItem } from '@colanode/ui/components/layouts/sidebars/sidebar-item';
+import { PageSettings } from '@colanode/ui/components/pages/page-settings';
 import {
   Collapsible,
   CollapsibleContent,
@@ -16,9 +18,10 @@ import { cn } from '@colanode/ui/lib/utils';
 
 interface PageSidebarItemProps {
   page: LocalPageNode;
+  role: NodeRole | null;
 }
 
-export const PageSidebarItem = ({ page }: PageSidebarItemProps) => {
+export const PageSidebarItem = ({ page, role }: PageSidebarItemProps) => {
   const workspace = useWorkspace();
   const [open, setOpen] = useState(false);
 
@@ -82,6 +85,17 @@ export const PageSidebarItem = ({ page }: PageSidebarItemProps) => {
             <span className="line-clamp-1 w-full grow text-left">
               {page.name ?? 'Unnamed'}
             </span>
+            {role && (
+              <div
+                className="opacity-0 group-hover/page-row:opacity-100 shrink-0"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                }}
+              >
+                <PageSettings page={page} role={role} />
+              </div>
+            )}
           </div>
         )}
       </Link>
@@ -90,7 +104,7 @@ export const PageSidebarItem = ({ page }: PageSidebarItemProps) => {
           <ul className="ml-3 flex min-w-0 flex-col gap-0.5 py-0.5">
             {children.map((child) => (
               <li key={child.id}>
-                <SidebarItem node={child} />
+                <SidebarItem node={child} role={role} />
               </li>
             ))}
           </ul>

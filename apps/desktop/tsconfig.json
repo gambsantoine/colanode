@@ -12,9 +12,8 @@
     "outDir": "dist",
     "resolveJsonModule": true,
     "jsx": "react-jsx",
-    "baseUrl": ".",
     "paths": {
-      "@colanode/desktop/*": ["src/*"],
+      "@colanode/desktop/*": ["./src/*"],
       "@colanode/core/*": ["../../packages/core/src/*"],
       "@colanode/crdt/*": ["../../packages/crdt/src/*"],
       "@colanode/client/*": ["../../packages/client/src/*"],

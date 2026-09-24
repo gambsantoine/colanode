@@ -58,6 +58,23 @@ export type SelectDevice = Selectable<DeviceTable>;
 export type CreateDevice = Insertable<DeviceTable>;
 export type UpdateDevice = Updateable<DeviceTable>;
 
+interface ApiKeyTable {
+  id: ColumnType<string, string, never>;
+  account_id: ColumnType<string, string, never>;
+  workspace_id: ColumnType<string | null, string | null, never>;
+  name: ColumnType<string, string, string>;
+  token_hash: ColumnType<string, string, never>;
+  token_salt: ColumnType<string, string, never>;
+  created_at: ColumnType<Date, Date, never>;
+  last_used_at: ColumnType<Date | null, Date | null, Date | null>;
+  revoked_at: ColumnType<Date | null, Date | null, Date | null>;
+  revoked_by: ColumnType<string | null, string | null, string | null>;
+}
+
+export type SelectApiKey = Selectable<ApiKeyTable>;
+export type CreateApiKey = Insertable<ApiKeyTable>;
+export type UpdateApiKey = Updateable<ApiKeyTable>;
+
 interface WorkspaceTable {
   id: ColumnType<string, string, never>;
   name: ColumnType<string, string, string>;
@@ -309,6 +326,7 @@ interface CounterTable {
 export interface DatabaseSchema {
   accounts: AccountTable;
   devices: DeviceTable;
+  api_keys: ApiKeyTable;
   workspaces: WorkspaceTable;
   users: UserTable;
   nodes: NodeTable;

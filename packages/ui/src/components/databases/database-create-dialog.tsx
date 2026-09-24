@@ -21,13 +21,15 @@ import {
 import { useWorkspace } from '@colanode/ui/contexts/workspace';
 
 interface DatabaseCreateDialogProps {
-  spaceId: string;
+  parentId: string;
+  rootId: string;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
 export const DatabaseCreateDialog = ({
-  spaceId,
+  parentId,
+  rootId,
   open,
   onOpenChange,
 }: DatabaseCreateDialogProps) => {
@@ -46,7 +48,7 @@ export const DatabaseCreateDialog = ({
         id: databaseId,
         type: 'database',
         name: values.name,
-        parentId: spaceId,
+        parentId,
         fields: {
           [fieldId]: {
             id: fieldId,
@@ -55,7 +57,7 @@ export const DatabaseCreateDialog = ({
             name: 'Comment',
           },
         },
-        rootId: spaceId,
+        rootId,
         createdAt: new Date().toISOString(),
         createdBy: workspace.userId,
         updatedAt: null,

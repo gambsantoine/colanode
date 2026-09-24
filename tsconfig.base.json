@@ -23,7 +23,6 @@
     "tsBuildInfoFile": "${configDir}/tsconfig.tsbuildinfo",
     "module": "preserve",
     "outDir": "${configDir}/dist",
-    "baseUrl": "${configDir}",
     "rootDir": "${configDir}/src",
     "paths": {
       "~/*": ["./src/*"]

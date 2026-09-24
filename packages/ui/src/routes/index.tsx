@@ -16,6 +16,10 @@ import {
   accountSettingsRoute,
 } from '@colanode/ui/routes/workspace/account';
 import {
+  accountApiKeysMaskRoute,
+  accountApiKeysRoute,
+} from '@colanode/ui/routes/workspace/account-api-keys';
+import {
   appAppearanceMaskRoute,
   appAppearanceRoute,
 } from '@colanode/ui/routes/workspace/appearance';
@@ -50,6 +54,10 @@ import {
   workspaceUsersMaskRoute,
   workspaceUsersRoute,
 } from '@colanode/ui/routes/workspace/users';
+import {
+  workspaceApiKeysMaskRoute,
+  workspaceApiKeysRoute,
+} from '@colanode/ui/routes/workspace/workspace-api-keys';
 
 export const routeTree = rootRoute.addChildren([
   homeRoute,
@@ -62,8 +70,10 @@ export const routeTree = rootRoute.addChildren([
     workspaceDownloadsRoute,
     workspaceUploadsRoute,
     workspaceUsersRoute,
+    workspaceApiKeysRoute,
     workspaceSettingsRoute,
     accountSettingsRoute,
+    accountApiKeysRoute,
     logoutRoute,
     infoRoute,
     appAppearanceRoute,
@@ -74,9 +84,11 @@ export const routeTree = rootRoute.addChildren([
     nodeMaskRoute,
     workspaceSettingsMaskRoute,
     workspaceUsersMaskRoute,
+    workspaceApiKeysMaskRoute,
     workspaceUploadsMaskRoute,
     workspaceDownloadsMaskRoute,
     accountSettingsMaskRoute,
+    accountApiKeysMaskRoute,
     logoutMaskRoute,
     infoMaskRoute,
     appAppearanceMaskRoute,
