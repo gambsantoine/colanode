@@ -30,6 +30,8 @@
 - **Rail d'espaces façon Discord** : chaque espace est une icône permanente dans la barre latérale, réordonnable par glisser-déposer ; l'espace actif est mémorisé.
 - **Catégories** : nouveau type de nœud `category` pour regrouper pages, canaux, bases et dossiers à l'intérieur d'un espace, avec glisser-déposer entre catégories.
 - **Diagrammes PlantUML** : commande `/plantuml` dans l'éditeur et outil PlantUML dédié (menu *Outils*). Le rendu est fait **100 % en local** (`@plantuml/core` + Graphviz WASM), sans appel réseau.
+- **draw.io local** : éditeur draw.io embarqué dans l'application (menu *Outils*), sans `embed.diagrams.net` ni autre service externe. Il est téléchargé une seule fois au build avec `npm run fetch:drawio -w @colanode/scripts` (version et empreinte figées dans `scripts/src/drawio/index.ts`).
+- **Titre et catégories des pages** : titre modifiable en haut de la page et catégories (`#tag`) propres au workspace, utilisables dans la recherche (Ctrl/Cmd+K) : `#infra sauvegarde`.
 - **Export PDF / impression** : export d'une page en PDF (A4) sur desktop, impression via une iframe isolée sur le web ; les diagrammes PlantUML sont inclus.
 - **API publique REST** (`/api`) : workspaces, espaces, nœuds et documents, avec pagination et versioning, authentifiée par **clé API** (`Authorization: Bearer …`).
 - **Clés API** : création, liste et révocation au niveau du compte ou du workspace, depuis l'interface.

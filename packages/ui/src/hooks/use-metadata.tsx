@@ -1,4 +1,4 @@
-import { eq, useLiveQuery } from '@tanstack/react-db';
+import { and, eq, useLiveQuery } from '@tanstack/react-db';
 
 import { collections } from '@colanode/ui/collections';
 import { buildMetadataKey } from '@colanode/ui/collections/metadata';
@@ -13,7 +13,7 @@ export const useMetadata = <T = string,>(
         .from({ metadata: collections.metadata })
         .where(
           ({ metadata }) =>
-            eq(metadata.namespace, namespace) && eq(metadata.key, key)
+            and(eq(metadata.namespace, namespace), eq(metadata.key, key))
         )
         .select(({ metadata }) => ({
           value: metadata.value,

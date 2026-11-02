@@ -41,6 +41,8 @@ export default defineConfig({
         minify: false,
         enableWorkboxModulesLogs: true,
         maximumFileSizeToCacheInBytes: 10 * 1024 * 1024, // 10MB
+        // Heavy and only needed by one tool: loaded on demand.
+        globIgnores: ['drawio/**'],
       },
     }),
   ],

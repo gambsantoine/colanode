@@ -7,9 +7,12 @@
   "description": "Colanode desktop application",
   "main": ".vite/build/main.js",
   "scripts": {
+    "predev": "npm run fetch:drawio -w @colanode/scripts -- desktop",
     "dev": "DEBUG=colanode:* electron-forge start",
     "dev:win": "set DEBUG=colanode:* & electron-forge start",
+    "prepackage": "npm run fetch:drawio -w @colanode/scripts -- desktop",
     "package": "electron-forge package",
+    "premake": "npm run fetch:drawio -w @colanode/scripts -- desktop",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
     "lint": "eslint --ext .ts,.tsx src",

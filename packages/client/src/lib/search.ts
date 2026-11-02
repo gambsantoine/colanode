@@ -28,6 +28,40 @@ export const buildSearchMatchQuery = (input: string): string | null => {
   return words.map((word) => `"${word}"*`).join(' ');
 };
 
+// `#tag` words filter the results, the rest is searched as text.
+export const parseSearchQuery = (
+  input: string
+): { text: string; tags: string[] } => {
+  const tags: string[] = [];
+  const text = input.replace(/(^|\s)#([^\s#]+)/g, (_, space, tag) => {
+    tags.push(tag.toLowerCase());
+    return space;
+  });
+
+  return { text: text.trim(), tags };
+};
+
+// Every filter must match a tag. Prefixes match, so results show up while
+// typing a tag.
+export const matchesTagFilters = (
+  tags: string[] | null | undefined,
+  filters: string[]
+): boolean =>
+  filters.every((filter) => tags?.some((tag) => tag.startsWith(filter)));
+
+export const listTaggedPages = async (
+  database: Kysely<WorkspaceDatabaseSchema>
+): Promise<SelectNode[]> => {
+  const query = sql<SelectNode>`
+    SELECT n.*
+    FROM nodes n
+    WHERE n.type = 'page' AND json_array_length(n.attributes, '$.tags') > 0
+  `.compile(database);
+
+  const result = await database.executeQuery(query);
+  return result.rows;
+};
+
 // Searches node names/attributes and document contents of a workspace
 // database. A node matching in both is returned once, with its best rank.
 // Name matches are boosted over document content matches.

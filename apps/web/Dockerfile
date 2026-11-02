@@ -30,6 +30,9 @@ COPY ../../packages/ui packages/ui
 COPY ../../apps/web apps/web
 COPY ../../tsconfig.base.json ./
 
+# Bundle the draw.io editor: it is served by this image, not by a third party
+RUN npm run fetch:drawio -w @colanode/scripts -- web
+
 # Build packages
 RUN npm run build -w @colanode/core && \
     npm run build -w @colanode/crdt && \
@@ -63,6 +66,16 @@ server {
     location = /servers.json {
         include /etc/nginx/security-headers.conf;
         add_header Cache-Control "no-store";
+    }
+
+    # The draw.io editor runs in an iframe of the app and may only reach this
+    # server: diagrams never leave the page.
+    location /drawio/ {
+        add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' data: blob:; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'" always;
+        add_header X-Content-Type-Options "nosniff" always;
+        add_header X-Frame-Options "SAMEORIGIN" always;
+        add_header Referrer-Policy "no-referrer" always;
+        try_files $uri =404;
     }
 
     location / {

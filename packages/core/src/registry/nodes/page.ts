@@ -14,6 +14,8 @@ export const pageAttributesSchema = z.object({
   name: z.string(),
   avatar: z.string().nullable().optional(),
   parentId: z.string(),
+  // Workspace wide labels, used to find pages in the search (`#tag`).
+  tags: z.array(z.string()).optional(),
 });
 
 export type PageAttributes = z.infer<typeof pageAttributesSchema>;
@@ -84,7 +86,7 @@ export const pageModel: NodeModel = {
 
     return {
       name: attributes.name,
-      attributes: null,
+      attributes: attributes.tags?.join(' ') || null,
     };
   },
   extractMentions: () => {
