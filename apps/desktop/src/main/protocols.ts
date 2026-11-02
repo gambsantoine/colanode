@@ -1,5 +1,6 @@
 import { net } from 'electron';
 import path from 'path';
+import { pathToFileURL } from 'url';
 
 import { AssetService, PathService } from '@colanode/client/services';
 
@@ -76,6 +77,19 @@ export const handleLocalRequest = async (
     const fileUrl = `file://${filePath}`;
     const subRequest = new Request(fileUrl, request);
     return net.fetch(subRequest);
+  }
+
+  if (type === 'drawio') {
+    const root = path.join(paths.assets, 'drawio');
+    const relativePath = decodeURIComponent(
+      new URL(request.url).pathname.replace(/^\/+/, '')
+    );
+    const filePath = path.resolve(root, relativePath || 'index.html');
+    if (!filePath.startsWith(root + path.sep)) {
+      return new Response(null, { status: 403 });
+    }
+
+    return net.fetch(pathToFileURL(filePath).toString());
   }
 
   if (type === 'files') {

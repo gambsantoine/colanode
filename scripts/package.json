@@ -7,7 +7,8 @@
   "scripts": {
     "generate:emojis": "tsx src/emojis/index.ts",
     "generate:icons": "tsx src/icons/index.ts",
-    "seed": "tsx src/seed/index.ts"
+    "seed": "tsx src/seed/index.ts",
+    "fetch:drawio": "tsx src/drawio/index.ts"
   },
   "devDependencies": {
     "@faker-js/faker": "^10.6.0",
