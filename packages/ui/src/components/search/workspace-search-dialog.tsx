@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 
 import { WorkspaceSearchResult } from '@colanode/client/queries';
 import { NodeBreadcrumbItem } from '@colanode/ui/components/nodes/node-breadcrumb-item';
+import { Badge } from '@colanode/ui/components/ui/badge';
 import {
   CommandDialog,
   CommandEmpty,
@@ -89,7 +90,7 @@ export const WorkspaceSearchDialog = ({
       <CommandInput
         value={query}
         onValueChange={setQuery}
-        placeholder="Search in this workspace..."
+        placeholder="Search in this workspace, #tag to filter..."
       />
       <CommandList>
         {debouncedQuery.length > 0 && !searchQuery.isFetching && (
@@ -106,6 +107,15 @@ export const WorkspaceSearchDialog = ({
               >
                 <NodeBreadcrumbItem node={result.node} />
                 <SearchSnippet result={result} />
+                {result.node.type === 'page' && result.node.tags?.length ? (
+                  <div className="flex flex-wrap gap-1">
+                    {result.node.tags.map((tag) => (
+                      <Badge key={tag} variant="secondary">
+                        #{tag}
+                      </Badge>
+                    ))}
+                  </div>
+                ) : null}
               </CommandItem>
             ))}
           </CommandGroup>

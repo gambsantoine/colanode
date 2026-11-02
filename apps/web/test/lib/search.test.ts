@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest';
 
-import { buildSearchMatchQuery } from '@colanode/client/lib/search';
+import {
+  buildSearchMatchQuery,
+  matchesTagFilters,
+  parseSearchQuery,
+} from '@colanode/client/lib/search';
+import { normalizeTag } from '@colanode/core';
 import {
   SEARCH_HIGHLIGHT_END,
   SEARCH_HIGHLIGHT_START,
@@ -73,5 +78,31 @@ describe('lib/search', () => {
       const node = { id: 'page', type: 'page', parentId: 'space' };
       expect(getSearchResultTarget(node as LocalNode)).toBe('page');
     });
+  });
+});
+
+describe('tag search', () => {
+  it('separates tags from the text', () => {
+    expect(parseSearchQuery('backup #Infra plan #pra')).toEqual({
+      text: 'backup  plan',
+      tags: ['infra', 'pra'],
+    });
+    expect(parseSearchQuery('#infra')).toEqual({ text: '', tags: ['infra'] });
+    expect(parseSearchQuery('issue#12')).toEqual({
+      text: 'issue#12',
+      tags: [],
+    });
+  });
+
+  it('requires every filter and matches prefixes', () => {
+    expect(matchesTagFilters(['infra', 'pra'], ['inf', 'pra'])).toBe(true);
+    expect(matchesTagFilters(['infra'], ['infra', 'pra'])).toBe(false);
+    expect(matchesTagFilters(undefined, ['infra'])).toBe(false);
+    expect(matchesTagFilters(undefined, [])).toBe(true);
+  });
+
+  it('normalizes tags', () => {
+    expect(normalizeTag('  #Plan de Reprise ')).toBe('plan-de-reprise');
+    expect(normalizeTag(' # ')).toBeNull();
   });
 });

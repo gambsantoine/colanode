@@ -29,6 +29,7 @@ export * from './types/workspaces';
 export * from './types/mutations';
 export * from './synchronizers';
 export * from './lib/nodes';
+export * from './lib/tags';
 export * from './lib/texts';
 export * from './lib/permissions';
 export * from './types/api';
