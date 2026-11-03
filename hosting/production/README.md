@@ -11,21 +11,22 @@ Internet ──► Caddy :443 ──► WEB_DOMAIN    ──► web:80
 ## Images
 
 Les images sont construites et publiées sur GitHub Container Registry par
-`.github/workflows/docker-publish.yml`, **uniquement lors de la création d'un tag
-`vX.Y.Z`** :
+`.github/workflows/docker-publish.yml`, **uniquement à la main** : aucun push ni
+tag ne déclenche de publication.
 
 | Image | Tags |
 | --- | --- |
 | `ghcr.io/gambsantoine/colanode-server` | `X.Y.Z`, `X.Y`, `X`, `latest`, `sha-<commit>` |
 | `ghcr.io/gambsantoine/colanode-web` | idem |
 
-Publier une version (depuis `main`) :
+Publier une version :
 
-```bash
-git checkout main && git pull
-git tag v1.0.0
-git push origin v1.0.0
-```
+1. GitHub → **Actions** → **Docker - Build and publish images** → **Run workflow**.
+2. Choisir la branche ou le tag à construire (en général `main`).
+3. Saisir la version (`X.Y.Z`, sans `v`) et décocher *latest* pour ne pas la
+   déployer par défaut. Une pré-release (`X.Y.Z-rc.1`) ne reçoit jamais `latest`.
+
+Les tags git restent utiles pour marquer les versions, mais ne publient plus rien.
 
 > Au premier push, les packages GHCR sont **privés**. Pour les tirer sans
 > authentification : GitHub → Packages → `colanode-server` / `colanode-web` →

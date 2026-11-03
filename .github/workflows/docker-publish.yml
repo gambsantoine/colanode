@@ -3,17 +3,26 @@ name: Docker - Build and publish images
 # Builds the server and web images and publishes them to GitHub Container
 # Registry (ghcr.io/<owner>/colanode-server and ghcr.io/<owner>/colanode-web).
 #
-# Only runs when a version tag vX.Y.Z is pushed.
-# Tags produced: X.Y.Z, X.Y, X, latest, sha-<short sha>
+# Runs only when started by hand (Actions → Docker - Build and publish images →
+# Run workflow), on the branch or tag selected there.
+# Tags produced: X.Y.Z, X.Y, X, sha-<short sha>, and latest unless disabled.
 
 on:
-  push:
-    tags:
-      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to publish (X.Y.Z, without the leading v)'
+        required: true
+        type: string
+      latest:
+        description: 'Also move the latest tag to this version'
+        required: true
+        default: true
+        type: boolean
 
 concurrency:
-  group: docker-publish-${{ github.ref }}
-  cancel-in-progress: true
+  group: docker-publish-${{ inputs.version }}
+  cancel-in-progress: false
 
 env:
   REGISTRY: ghcr.io
@@ -52,15 +61,24 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Compute version
-        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
+      # The version is typed by hand: it is checked before being used anywhere.
+      - name: Check version
+        env:
+          VERSION: ${{ inputs.version }}
+        run: |
+          if ! printf '%s' "$VERSION" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$'; then
+            echo "::error::Invalid version: expected X.Y.Z or X.Y.Z-suffix"
+            exit 1
+          fi
 
       - name: Set version and commit SHA into build.ts
+        env:
+          VERSION: ${{ inputs.version }}
         run: |
           cat <<EOF > ./packages/core/src/types/build.ts
           // This file is auto-generated during CI/CD
-          const VERSION = "${{ env.VERSION }}";
-          const SHA = "${{ github.sha }}";
+          const VERSION = "${VERSION}";
+          const SHA = "${GITHUB_SHA}";
 
           export const build = {
               version: VERSION,
@@ -138,13 +156,14 @@ jobs:
         uses: docker/metadata-action@c299e40c65443455700f0fdfc63efafe5b349051 # v5
         with:
           images: ${{ env.REGISTRY }}/${{ github.repository_owner }}/colanode-${{ matrix.app }}
+          # Pre-releases (X.Y.Z-suffix) only get their own tag.
           tags: |
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-            type=semver,pattern={{major}}
+            type=semver,pattern={{version}},value=${{ inputs.version }}
+            type=semver,pattern={{major}}.{{minor}},value=${{ inputs.version }}
+            type=semver,pattern={{major}},value=${{ inputs.version }}
             type=sha,prefix=sha-
           flavor: |
-            latest=true
+            latest=${{ inputs.latest && !contains(inputs.version, '-') }}
 
       - name: Create and push the multi-architecture tags
         working-directory: /tmp/digests
